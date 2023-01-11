@@ -6,32 +6,44 @@ public class Bullet : MonoBehaviour
 {
   public Type type = Type.A;
   public float damage = 5f;
+  public Transform target;
   public void Seek(Transform target)
   {
-    Vector3 dir = target.transform.position - transform.position;
-    float angle = Vector3.SignedAngle(transform.up, dir, transform.forward);
-    transform.Rotate(0f, 0f, angle);
+    this.target = target;
   }
 
   // Update is called once per frame
   void Update()
   {
+
+    if (target == null)
+    {
+      Destroy(gameObject);
+      return;
+    }
+
+    if (Vector2.Distance(transform.position, target.transform.position) < 0.2f)
+    {
+      Debug.Log("hit");
+    }
+    Vector3 dir = target.transform.position - transform.position;
+    float angle = Vector3.SignedAngle(transform.up, dir, transform.forward);
+    transform.Rotate(0f, 0f, angle);
     transform.Translate(Vector2.up.normalized * Time.deltaTime * 15);
   }
 
-  private void OnTriggerEnter2D(Collider2D collision)
+  public virtual void HitTarget()
   {
-    Debug.Log("hit");
-    var comp = collision.GetComponent<Enemy>();
-    if (comp != null)
-    {
-      Hit(comp);
-      Destroy(gameObject);
-    }
+    Damage(target);
   }
 
-  public virtual void Hit(Enemy target)
+  void Damage(Transform enemy)
   {
-    target.Hit(damage, type);
+    Enemy e = enemy.GetComponent<Enemy>();
+
+    if (e != null)
+    {
+      e.Hit(damage, type);
+    }
   }
 }

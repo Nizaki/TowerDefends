@@ -7,7 +7,7 @@ public class BlastBullet : Bullet
   public GameObject hitEffect;
   public float explosiveRadius = 3f;
   public float minDamage = 8f;
-  public override void Hit(Enemy target)
+  public override void HitTarget()
   {
     Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, explosiveRadius);
     foreach (Collider2D collider in colliders)

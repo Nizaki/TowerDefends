@@ -5,7 +5,7 @@ using UnityEngine;
 public class BlastBullet : Bullet
 {
   public GameObject hitEffect;
-  public float explosiveRadius = 3f;
+  public float explosiveRadius = 1f;
   public float minDamage = 8f;
   public override void HitTarget()
   {

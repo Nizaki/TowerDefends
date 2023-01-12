@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
   private int waypointIndex = 0;
   private Transform target;
   public Type type = Type.A;
+  private bool slowed = false;
   // Start is calle d before the first frame update
   void Start()
   {
@@ -32,7 +33,9 @@ public class Enemy : MonoBehaviour
 
   public void Slow()
   {
+    if (slowed) return;
     speed = speed * 0.7f;
+    slowed = true;
   }
 
   public void Hit(float damage, Type DamageType)

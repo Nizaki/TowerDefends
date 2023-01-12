@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
   public Type type = Type.A;
   public float damage = 5f;
   public Transform target;
+  public bool slowed = false;
   public void Seek(Transform target)
   {
     this.target = target;
@@ -22,9 +23,10 @@ public class Bullet : MonoBehaviour
       return;
     }
 
-    if (Vector2.Distance(transform.position, target.transform.position) < 0.2f)
+    if (Vector2.Distance(transform.position, target.transform.position) < 0.1f)
     {
-      Debug.Log("hit");
+      HitTarget();
+      Destroy(gameObject);
     }
     Vector3 dir = target.transform.position - transform.position;
     float angle = Vector3.SignedAngle(transform.up, dir, transform.forward);
@@ -44,6 +46,10 @@ public class Bullet : MonoBehaviour
     if (e != null)
     {
       e.Hit(damage, type);
+      if (slowed)
+      {
+        e.Slow();
+      }
     }
   }
 }

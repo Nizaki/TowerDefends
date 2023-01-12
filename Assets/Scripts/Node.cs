@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Node : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+  public Turret currentTarget;
+  public void Build(GameObject turret)
+  {
+    if (currentTarget != null) { return; }
+    var go = Instantiate(turret, transform);
+    var comp = go.GetComponent<Turret>();
+    currentTarget = comp;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  }
+
+  private void OnMouseDown()
+  {
+    if (EventSystem.current.IsPointerOverGameObject() || currentTarget != null) return;
+    BuildPanel.instance.Open(this);
+  }
 }
